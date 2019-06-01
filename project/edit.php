@@ -137,7 +137,7 @@
           <tr><th>開始日：</th><td><input type="date" name="start_date" value="<?= htmlspecialchars($project['start_date'],ENT_QUOTES); ?>"></td></tr>
           <tr><th>完了日：</th><td><input type="date" name="end_date" value="<?= htmlspecialchars($project['end_date'],ENT_QUOTES); ?>"></td></tr>
           <tr><th>請求日：</th><td><input type="date" name="billing_date" value="<?= htmlspecialchars($project['billing_date'],ENT_QUOTES); ?>"></td></tr>
-          <tr><th>金額：</th><td><input type="number" name="amount" value="<?= htmlspecialchars($project['project_name'],ENT_QUOTES); ?>"></td></tr>
+          <tr><th>金額：</th><td><input type="number" name="amount" value="<?= htmlspecialchars($project['amount'],ENT_QUOTES); ?>"></td></tr>
           <tr><th>請求先：</th><td><select name="client_id">
           <?php foreach($client_list as $client_list_val){ ?>
           <option value="

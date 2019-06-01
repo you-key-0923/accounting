@@ -60,11 +60,13 @@
         <div class="inner">
 
           <h1>トップページ！！</h1>
+          <p><a href="https://github.com/you-key-0923/accounting">コードはこちら</a></p>
           <div class="index_box">
-            <p>アラートを出すのだ！</p>
+            <p>アラートを出す？？</p>
             <ul>
-                <li>未請求の案件が、「」件あるよ！</li>
-                <li>現在進行中の案件は「」件だよ！</li>
+                <li>未請求の案件が、「」件あるよ！とか？</li>
+                <li>現在進行中の案件は「」件だよ！とか？</li>
+                <li>仕様決まったら作るよ</li>
             </ul>
             </div>
 
