@@ -1,0 +1,386 @@
+@charset "utf-8";
+
+/*-----------------------------------------------
+ __default style clear
+-----------------------------------------------*/
+
+* {
+	margin:0;
+	padding:0;
+}
+
+body {
+	background:white;
+	font-size:74.5%;
+	font-family:verdana,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,Meiryo,"ＭＳ Ｐゴシック","MS PGothic",Sans-Serif;
+	color:#333;
+	line-height:1.5;
+}
+
+html {
+	overflow-y:scroll;
+}
+
+p {
+	margin:0 0 1em;
+}
+
+li {
+	list-style:none;
+	line-height:1.3;
+}
+
+img,
+fieldset {
+	border:0;
+}
+
+
+/*-----------------------------------------------
+ __header
+-----------------------------------------------*/
+
+#header {
+	margin-top:15px;
+	margin-bottom:15px;
+	min-width:500px;
+	background:#EFEFEF;
+}
+
+#header h1 {
+	padding:10px 15px 0;
+}
+
+#header p#siteDescription {
+	padding:0 15px 10px 30px;
+}
+
+
+/*-----------------------------------------------
+ __footer
+-----------------------------------------------*/
+
+#footer {
+	clear:both;
+	width:100%;
+	min-width:500px;
+	padding-top:5px;
+	padding-bottom:5px;
+	background:#EFEFEF;
+}
+
+#footer ul {
+	margin:15px auto 10px;
+	text-align:center;
+}
+
+#footer ul li {
+	display:inline;
+	margin-right:5px;
+	padding-left:10px;
+	line-height:1.1;
+	border-left:1px solid white;
+}
+
+#footer ul li.utilityHome {
+	border-left:0;
+}
+
+#footer p#copyright {
+	text-align:center;
+}
+
+
+/*-----------------------------------------------
+ __main
+-----------------------------------------------*/
+
+#main {
+	float:left;
+	width:100%;
+}
+
+
+/* __inner
+------------------------------------------*/
+
+.inner {
+	min-width:350px;
+	margin:0 0 15px 200px;
+	padding:10px 15px 5px;
+	background:#EFEFEF;
+	height:550px;
+}
+
+#main .inner h2 {
+	margin-bottom:10px;
+	font-size:180%;
+}
+
+ table.list{
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+	font-size:12px;
+}
+
+ table th,table td{
+  padding: 7px 0;
+  text-align: center;
+}
+
+table tr:nth-child(odd){
+  background-color: #fff
+}
+
+/* __edit
+------------------------------------------*/
+
+.inner {
+	min-width:350px;
+	margin:0 0 15px 200px;
+	padding:10px 15px 5px;
+	background:#EFEFEF;
+}
+
+#main .inner h2 {
+	margin-bottom:10px;
+	font-size:180%;
+}
+
+
+/*-----------------------------------------------
+ __sub
+-----------------------------------------------*/
+
+#sub {
+	float:left;
+	width:185px;
+	margin-left:-100%;
+	margin-bottom:15px;
+	padding:15px 0 0 0;
+	background:#EFEFEF;
+	height:550px;
+}
+
+#sub h3 {
+	margin-bottom:5px;
+	margin-left:15px;
+	font-size:100%;
+	letter-spacing: 1px;
+}
+
+#sub ul {
+	margin:0 15px 20px;
+}
+
+#sub ul li {
+	padding:3px 5px;
+	border-bottom:1px solid #CCC;
+}
+
+#sub ul li a {
+	text-decoration:none;
+}
+
+#sub ul li a:hover {
+	text-decoration:underline;
+}
+
+
+
+
+/*-----------------------------------------------
+ __btn
+-----------------------------------------------*/
+
+
+.btn-open {
+  display: inline-block;
+  width: 100px;
+  height:30px;
+	margin: 10px;
+  text-align: center;
+  background-color: #9ec34b;
+  font-size: 14px;
+	font-weight: bold;
+  line-height: 30px;
+  color: #FFF;
+  text-decoration: none;
+  border: 2px solid #9ec34b;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.btn-open:after{
+  width: 100%;
+  height: 0;
+  content:"";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background : #FFF;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transition: .2s;
+  z-index: -1;
+}
+.btn-open:hover{
+  color: #9ec34b;
+}
+.btn-open:hover:after{
+  height: 240%;
+  opacity: 1;
+}
+.btn-open:active:after{
+  height: 340%;
+  opacity: 1;
+}
+
+
+
+/*-----------------------------------------------
+ __submit_btn
+-----------------------------------------------*/
+
+.submit_btn {
+  display       : inline-block;
+  border-radius : 1%;          /* 角丸       */
+  font-size     : 12pt;        /* 文字サイズ */
+  text-align    : center;      /* 文字位置   */
+  cursor        : pointer;     /* カーソル   */
+  padding       : 10px 10px;   /* 余白       */
+  background    : #ff9999;     /* 背景色     */
+  color         : #ffffff;     /* 文字色     */
+  line-height   : 1em;         /* 1行の高さ  */
+  transition    : .3s;         /* なめらか変化 */
+  box-shadow    : 1px 1px 3px #666666;  /* 影の設定 */
+  border        : 2px solid #ff9999;    /* 枠の指定 */
+}
+.submit_btn:hover {
+  box-shadow    : none;        /* カーソル時の影消去 */
+  color         : #ff9999;     /* 背景色     */
+  background    : #ffffff;     /* 文字色     */
+}
+
+/*-----------------------------------------------
+ __indexのアラート用BOX
+-----------------------------------------------*/
+
+
+.index_box{
+    position: relative;
+    background: #fff0cd;
+    box-shadow: 0px 0px 0px 5px #fff0cd;
+    border: dashed 2px white;
+	padding: 5px;
+	margin: 20px 0px;
+    color: #454545;
+}
+.index_box:after{
+    position: absolute;
+    content: '';
+    right: -7px;
+    top: -7px;
+    border-width: 0 15px 15px 0;
+    border-style: solid;
+    border-color: #ffdb88 #fff #ffdb88;
+    box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+.index_box p {
+    margin: 0; 
+    padding: 0;
+}
+
+
+/*-----------------------------------------------
+ __project_list.php 検索フォーム
+-----------------------------------------------*/
+
+.well {
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px;
+	background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+	display:inline-flex;
+}
+
+
+/* form-group これ作ってねぇや */
+	
+.form-control{
+  /* height: 20px;
+	font-size: 12px; */
+	margin: 0px 20px 0px 5px;
+	}
+
+.form-control label {
+	padding:0.2em;
+	margin-top:0.3em;
+	text-align:right;
+	width:70px;
+	float:left;
+	text-transform:uppercase;
+	}
+
+
+
+.btn-default {
+	display       : inline-block;
+	border-radius : 1%;          /* 角丸       */
+	font-size     : 10pt;        /* 文字サイズ */
+	text-align    : center;      /* 文字位置   */
+	cursor        : pointer;     /* カーソル   */
+	padding       : 5px 5px;   /* 余白       */
+	background    : #ff9999;     /* 背景色     */
+	color         : #ffffff;     /* 文字色     */
+	line-height   : 1em;         /* 1行の高さ  */
+	transition    : .3s;         /* なめらか変化 */
+	box-shadow    : 1px 1px 3px #666666;  /* 影の設定 */
+	border        : 2px solid #ff9999;    /* 枠の指定 */
+	margin: 0px 20px 0px 5px;
+  }
+.btn-default:hover {
+	box-shadow    : none;        /* カーソル時の影消去 */
+	color         : #ff9999;     /* 背景色     */
+	background    : #ffffff;     /* 文字色     */
+  }
+
+
+	/*-----------------------------------------------
+ __project_list.phpの表示テーブル用
+-----------------------------------------------*/
+
+
+	div.example {
+		width: 100%;
+		height: 400px;
+		overflow: scroll;
+	}
+
+	/*-----------------------------------------------
+	案件の新規登録や編集用
+	-----------------------------------------------*/
+
+
+	table.table_01{
+		width: 50%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 12px;
+    border: 0.5px grey solid;
+    margin: 20px 0 20px 0;
+	}
+
+	form.form_01{
+		width: 50%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 12px;
+    border: 0.5px grey solid;
+    margin: 20px 0 20px 0;
+	}
