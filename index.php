@@ -4,28 +4,26 @@
   include('config.php');
 
   //SQL文を作る
-  $sql = 'SELECT
-   p.id
-  ,p.project_type
-  ,p.project_name
-  ,p.start_date
-  ,p.end_date
-  ,p.billing_date
-  ,p.amount
-  ,s.status_text
+  $sql = 
+  "SELECT
+  c.id
   ,c.client_name
+  ,COUNT(p.billing_status = 'unbilled' OR NULL) unbilled_count
+  ,SUM(CASE p.billing_status WHEN 'unbilled' THEN p.amount ELSE 0 END) unbilled_sum
+  ,COUNT(p.billing_status = 'billed' OR NULL) billed_count
+  ,SUM(CASE p.billing_status WHEN 'billed' THEN p.amount ELSE 0 END) billed_sum
+  ,COUNT(p.billing_status = 'paid' OR NULL) paid_count
+  ,SUM(CASE p.billing_status WHEN 'paid' THEN p.amount ELSE 0 END) paid_sum
+  ,COUNT(p.id) total_count
+  ,SUM(p.amount) total_sum
 
-  FROM
-  projects AS p
+  FROM projects p
 
-  LEFT JOIN
-  status AS s
-  ON s.status_en = p.work_status
-  LEFT JOIN
-  clients AS c
+  LEFT JOIN clients c
   ON c.id = p.client_id
 
-  ORDER BY p.id';
+  GROUP BY
+  c.id";
 
   //プリペアドステートメントを作る
   $statement = $pdo->prepare($sql);
@@ -69,25 +67,35 @@
                 <li>仕様決まったら作るよ</li>
             </ul>
             </div>
-
-            <table border="1">
+            <p>※クライアント（請求先）毎の請求額（作業ステータスは条件に含めず）
+            <table class="list">
                 <tr>
-                    <th>未着手</th>
-                    <th>進行中</th>
-                    <th>完了</th>
-                    <th>請求済</th>
-                    <th>入金確認済</th>
-                    <th>中止</th>
+                    <th>No</th>
+                    <th>クライアント名</th>
+                    <th>未請求件数</th>
+                    <th>未請求金額</th>
+                    <th>請求済件数</th>
+                    <th>請求済金額</th>
+                    <th>入金確認済件数</th>
+                    <th>入金確認済金額</th>
+                    <th>合計件数</th>
+                    <th>合計金額</th>
                 </tr>
-                <tr>
-                    <td>0件</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
 
-                </tr>
+                <?php foreach ($lists as $list) { ?>
+              <tr>
+                <td><?= $list['id']; ?></td>
+                <td><?= $list['client_name']; ?></td>
+                <td><?= $list['unbilled_count']; ?></td>
+                <td><?= $list['unbilled_sum']; ?></td>
+                <td><?= $list['billed_count']; ?></td>
+                <td><?= $list['billed_sum']; ?></td>
+                <td><?= $list['paid_count']; ?></td>
+                <td><?= $list['paid_sum']; ?></td>
+                <td><?= $list['total_count']; ?></td>
+                <td><?= $list['total_sum']; ?></td>
+              </tr>
+            <?PHP  } ?>
             </table>
         </div>
       </div>

@@ -142,7 +142,7 @@
     <div id="main">
       <div class="inner">
 
-        <h1>案件詳細</h1>
+        <h1>案件編集</h1>
 
         <form action="" method="post">
         <input type="hidden" name="id" value="<?= $project['id']; ?>">

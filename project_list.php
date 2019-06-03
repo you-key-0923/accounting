@@ -57,11 +57,19 @@
 
   //検索条件
   if(!empty($search['search_work_status'])){
-    $where_list[] = 'p.work_status = :work_status';
+    if($search['search_work_status'] == 'except_for_canceled'){
+      $where_list[] = 'p.work_status != "canceled"';     
+    }else{
+      $where_list[] = 'p.work_status = :work_status';
+      }
     $bind_array[':work_status'] = $search['search_work_status'];
   }
   if(!empty($search['search_billing_status'])){
-    $where_list[] = 'p.billing_status = :billing_status';
+    if($search['search_billing_status'] == 'except_for_paid'){
+      $where_list[] = 'p.billing_status != "paid"';     
+    }else{
+      $where_list[] = 'p.billing_status = :billing_status';
+      }
     $bind_array[':billing_status'] = $search['search_billing_status'];
   }
   if(!empty($search['search_type'])){
@@ -80,15 +88,14 @@
     $where_list[] = 'p.remarks like :remarks';
     $bind_array[':remarks'] = '%' . $search['search_remarks'] . '%';
   }
-
+//日付周りの検索が側だけ。作成するときここに足す！！！
 
   // WHERE句を合成してSQL文につなげる
   if(!empty($where_list)){
     $sql = $sql . ' WHERE ' . implode(' AND ', $where_list).' ORDER BY p.id';
   }else{
-    $sql = $sql .' ORDER BY p.id';
+    $sql = $sql .' WHERE p.work_status != "canceled" AND p.billing_status != "paid" ORDER BY p.id'; //デフォルトの表示条件
   }
-
 
   //プリペアドステートメントを作る
   $stmt = $pdo->prepare($sql);
@@ -152,6 +159,7 @@
                     <option value="working" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'working' ? 'selected' : '' ?>>進行中</option>
                     <option value="done" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'done' ? 'selected' : '' ?>>完了</option>
                     <option value="canceled" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'canceled' ? 'selected' : '' ?>>中止</option>
+                    <option value="except_for_canceled" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'except_for_canceled' ? 'selected' : '' ?>>中止以外</option>
                 </select>
             </div>
              <div class="form-group">
@@ -161,6 +169,7 @@
                     <option value="unbilled" <?php echo isset($_GET['search_billing_status']) && $_GET['search_billing_status'] == 'unbilled' ? 'selected' : '' ?>>未請求</option>
                     <option value="billed" <?php echo isset($_GET['search_billing_status']) && $_GET['search_billing_status'] == 'billed' ? 'selected' : '' ?>>請求済</option>
                     <option value="paid" <?php echo isset($_GET['search_billing_status']) && $_GET['search_billing_status'] == 'paid' ? 'selected' : '' ?>>入金確認済</option>
+                    <option value="except_for_paid" <?php echo isset($_GET['search_billing_status']) && $_GET['search_billing_status'] == 'except_for_paid' ? 'selected' : '' ?>>入金確認済以外</option>
                 </select>
             </div>
             <div class="form-group">
@@ -183,7 +192,25 @@
                 <label for="InputRemarks">備考</label>
                 <input name="search_remarks" class="form-control" id="InputRemarks" value="<?php echo isset($_GET['search_remarks']) ? h($_GET['search_remarks']) : '' ?>">
             </div>
-        <button type="submit" class="btn btn-default" name="search">検索</button>
+            <div class="form-group">
+                <label for="InputStartDate">開始日</label>
+                <input type="date" name="search_start_date_from" class="form-control" id="InputStartDate" value="<?php echo isset($_GET['search_start_date_from']) ? h($_GET['search_start_date_from']) : '' ?>">
+                ～
+                <input type="date" name="search_start_date_to" class="form-control" id="InputBillingDate" value="<?php echo isset($_GET['search_start_date_to']) ? h($_GET['search_start_date_to']) : '' ?>">
+            </div>
+            <div class="form-group">
+                <label for="InputEndDate">完了日</label>
+                <input type="date" name="search_end_date_from" class="form-control" id="InputEndDate" value="<?php echo isset($_GET['search_end_date_from']) ? h($_GET['search_end_date_from']) : '' ?>">
+                ～
+                <input type="date" name="search_end_date_to" class="form-control" id="InputBillingDate" value="<?php echo isset($_GET['search_end_date_to']) ? h($_GET['search_end_date_to']) : '' ?>">
+            </div>
+            <div class="form-group">
+                <label for="InputBillingDate">請求日</label>
+                <input type="date" name="search_billing_date_from" class="form-control" id="InputBillingDate" value="<?php echo isset($_GET['search_billing_date_from']) ? h($_GET['search_billing_date_from']) : '' ?>">
+                ～
+                <input type="date" name="search_billing_date_to" class="form-control" id="InputBillingDate" value="<?php echo isset($_GET['search_billing_date_to']) ? h($_GET['search_billing_date_to']) : '' ?>">
+            </div>
+         <button type="submit" class="btn btn-default" name="search">検索</button>
         </div>
 
 	</form>
@@ -210,12 +237,6 @@
             </tr>
 
             <?php
-
-            //project_typeをテキストに置換
-            $project_type_text = [
-            "1" => "新規",
-            "2" => "保守",
-            ];
 
             foreach ($lists as $list) { ?>
               <tr>
