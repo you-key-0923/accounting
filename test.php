@@ -1,14 +1,25 @@
 <?php
-$hoge = 'てすと';
-$params['name'] = '';
-/*
-$where = [];
-	if(!empty($params['name'])){
-		$where[] = "name like '%{$params['name']}%'";
-    }
-    */
-?>
+//DB接続情報をまとめるやつを作成中
 
-<?php echo isset($params['name']) && $params['name'] == 'プロジェクト' ? 'selected' : 'あ' ?>
+function db_connect(){
+  //DBの接続情報
+$host = "localhost";
+$user = "root";
+$password = "1234";
+$name = "accounting";
+//MySQLのDSN文字列
+$dsn = "mysql:host={$host}; dbname={$name}; charset=utf8";
 
-$変数が空じゃない＆$変数が'テキスト'と同じなら、'selected'そうじゃないなら'あ'
+try{
+  $pdo = new PDO($dsn,$user,$password);
+}catch(PDOException $e){
+  echo 'DB接続エラー:' . $e->getMessage();
+  exit;
+}
+return $pdo;
+}
+
+
+
+
+

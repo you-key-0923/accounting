@@ -1,13 +1,18 @@
 <?php
+/***TO DO
+クライアント情報を抽出の箇所関数化したい
+疑問符パラメータを、名前パラメーターに
+*/
+
+
 // セッションの開始
 session_start();
-//$_SESSION['join'] = $_POST;
 
 include('../db_connect.php');
 include('../config.php');
 
 /*----------------------------
-    取引先の情報を抽出
+    クライアント情報を抽出
 -----------------------------*/
 
 $client_id = $_SESSION['join']['p_client'];
@@ -19,8 +24,6 @@ $stmt -> execute();
 
 $client = $stmt->fetch(PDO::FETCH_ASSOC);
 
-//$stmt = null;
-//$pdo = null;
 
 /*----------------------------
     入力データを登録
@@ -33,6 +36,9 @@ if(!empty($_POST)){
     end_date=?,
     billing_date=?,
     amount=?,
+    work_status=?,
+    billing_status=?,
+    remarks=?,
     client_id=?,
     created_at=now()';
 
@@ -45,6 +51,9 @@ if(!empty($_POST)){
         $_SESSION['join']['p_end_date'],
         $_SESSION['join']['p_billing_date'],
         $_SESSION['join']['p_amount'],
+        $_SESSION['join']['p_work_status'],
+        $_SESSION['join']['p_billing_status'],
+        $_SESSION['join']['p_remarks'],
         $_SESSION['join']['p_client']
     ));
 
@@ -75,12 +84,13 @@ if(!empty($_POST)){
           <form action="" method="post">
           <input type="hidden" name="action" value="submit" />
           <table class="table_01">
-            <tr><th>案件種別：</th><td><?= $_SESSION['join']['p_type']; ?></td></tr>
+           <tr><th>ステータス：</th><td><?= $status_text[$_SESSION['join']['p_work_status']]; ?>　<?= $status_text[$_SESSION['join']['p_billing_status']]; ?></td></tr>
+            <tr><th>案件種別：</th><td><?= $project_type_text[$_SESSION['join']['p_type']]; ?></td></tr>
             <tr><th>案件名：</th><td><?= $_SESSION['join']['p_name']; ?></td></tr>
             <tr><th>開始日：</th><td><?= $_SESSION['join']['p_start_date']; ?></td></tr>
             <tr><th>完了日：</th><td><?= $_SESSION['join']['p_end_date']; ?></td></tr>
             <tr><th>請求日：</th><td><?= $_SESSION['join']['p_billing_date']; ?></td></tr>
-            <tr><th>金額：</th><td><?= $_SESSION['join']['p_amount']; ?></td></tr>
+            <tr><th>金額：</th><td><?= $_SESSION['join']['p_amount']; ?> 円</td></tr>
             <tr><th>請求先：</th><td><?= $client['client_name']; ?></td></tr>
           </table>
           <input type="submit" class="submit_btn" value="登録">

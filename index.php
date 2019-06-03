@@ -20,7 +20,7 @@
 
   LEFT JOIN
   status AS s
-  ON s.status_en = p.status
+  ON s.status_en = p.work_status
   LEFT JOIN
   clients AS c
   ON c.id = p.client_id

@@ -10,7 +10,7 @@ $name = "accounting";
 $dsn = "mysql:host={$host}; dbname={$name}; charset=utf8";
 
 try{
-  $pdo = new PDO($dsn,$user,$password);
+  $pdo = new PDO($dsn,$user,$password); //接続しただけの状態
 }catch(PDOException $e){
   echo 'DB接続エラー:' . $e->getMessage();
 }

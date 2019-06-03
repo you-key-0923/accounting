@@ -1,104 +1,123 @@
 <?php
 
-    include('db_connect.php');
-    include('config.php');
+  include('db_connect.php');
+  include('config.php');
 
 
-    // 検索パラメタの取得
-    // (第一種)ホワイトリストの準備
-    $search_list = array (
-      'search_type',
-      'search_name',
-      'search_status',
-      'search_client',
-    );
+  // 検索パラメタの取得
+  // (第一種)ホワイトリストの準備
+  
+  $search_list = array (
+    'search_type',
+    'search_name',
+    'search_work_status',
+    'search_billing_status',
+    'search_client',
+    'search_remarks'
+  );
+  
 
-    // データの取得
-    $search = [];
-    foreach($search_list as $p) {
-        if (isset($_GET[$p])&&($_GET[$p] !== '') ) {
-            $search[$p] = $_GET[$p];
-        }
-    }
-
-    //SQLの作成
-    $sql = 'SELECT
-     p.id
-    ,p.project_type
-    ,p.project_name
-    ,p.start_date
-    ,p.end_date
-    ,p.billing_date
-    ,p.amount
-    ,s.status_text
-    ,c.client_name
-    ,p.status
-
-    FROM
-    projects AS p
-
-    LEFT JOIN
-    status AS s
-    ON s.status_en = p.status
-    LEFT JOIN
-    clients AS c
-    ON c.id = p.client_id';
-
-    // 「検索条件がある」場合の検索条件の付与
-    $bind_array = [];
-    if (!empty($search)) {
-      $where_list = [];
-    }else{
-    '';
-    }
-
-    //検索条件
-    if(!empty($search['search_type'])){
-      $where_list[] = 'p.project_type = :type';
-      $bind_array[':type'] = $search['search_type'];
-    }
-    if(!empty($search['search_name'])){
-      $where_list[] = 'p.project_name = :name';
-      $bind_array[':name'] = $search['search_name'];
-    }
-    if(!empty($search['search_status'])){
-      $where_list[] = 'p.status = :status';
-      $bind_array[':status'] = $search['search_status'];
-    }
-    if(!empty($search['search_client'])){
-      $where_list[] = 'c.client_name like :client';
-      $bind_array[':client'] = '%' . $search['search_client'] . '%';
-    }
-
-    // WHERE句を合成してSQL文につなげる
-    if(!empty($where_list)){
-      $sql = $sql . ' WHERE ' . implode(' AND ', $where_list).' ORDER BY p.id';
-    }else{
-      $sql = $sql .' ORDER BY p.id';
-    }
-    
-
-    //プリペアドステートメントを作る
-    $stmt = $pdo->prepare($sql);
-
-    // 値のバインド
-    if (!empty($bind_array)) {
-      foreach($bind_array as $k => $v) {
-          $stmt->bindValue($k, $v); 
+  // データの取得
+  $search = [];
+  
+  foreach($search_list as $p) {
+      if (isset($_GET[$p])&&($_GET[$p] !== '') ) {
+          $search[$p] = $_GET[$p];
       }
+  }
+
+  //SQLの作成
+  $sql = 'SELECT
+    p.id
+  ,p.project_type
+  ,p.project_name
+  ,p.start_date
+  ,p.end_date
+  ,p.billing_date
+  ,p.amount
+  ,c.client_name
+  ,p.work_status
+  ,p.billing_status
+  ,p.remarks
+
+  FROM
+  projects AS p
+
+  LEFT JOIN
+  clients AS c
+  ON c.id = p.client_id';
+
+  // 「検索条件がある」場合の検索条件の付与
+  $bind_array = [];
+  if (!empty($search)) {
+    $where_list = [];
+  }else{
+  '';
+  }
+
+  //検索条件
+  if(!empty($search['search_work_status'])){
+    $where_list[] = 'p.work_status = :work_status';
+    $bind_array[':work_status'] = $search['search_work_status'];
+  }
+  if(!empty($search['search_billing_status'])){
+    $where_list[] = 'p.billing_status = :billing_status';
+    $bind_array[':billing_status'] = $search['search_billing_status'];
+  }
+  if(!empty($search['search_type'])){
+    $where_list[] = 'p.project_type = :type';
+    $bind_array[':type'] = $search['search_type'];
+  }
+  if(!empty($search['search_name'])){
+    $where_list[] = 'p.project_name = :name';
+    $bind_array[':name'] = $search['search_name'];
+  }
+  if(!empty($search['search_client'])){
+    $where_list[] = 'c.client_name like :client';
+    $bind_array[':client'] = '%' . $search['search_client'] . '%';
+  }
+  if(!empty($search['search_remarks'])){
+    $where_list[] = 'p.remarks like :remarks';
+    $bind_array[':remarks'] = '%' . $search['search_remarks'] . '%';
+  }
+
+
+  // WHERE句を合成してSQL文につなげる
+  if(!empty($where_list)){
+    $sql = $sql . ' WHERE ' . implode(' AND ', $where_list).' ORDER BY p.id';
+  }else{
+    $sql = $sql .' ORDER BY p.id';
+  }
+
+
+  //プリペアドステートメントを作る
+  $stmt = $pdo->prepare($sql);
+
+  // 値のバインド
+  if (!empty($bind_array)) {
+    foreach($bind_array as $k => $v) {
+        $stmt->bindValue($k, $v); 
     }
+  }
 
-    //SQL文を実行する
-    $stmt -> execute();
+  //SQL文を実行する
+  $stmt -> execute();
 
-    $lists = [];
-    while ($project = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $lists[] = $project;
-    }
+  $lists = [];
+  while ($project = $stmt->fetch(PDO::FETCH_ASSOC)) {
+  $lists[] = $project;
+  }
 
-    //変数をクリアにする
-    $stmt = null;
-    $pdo = null;
+  /*----------------------------
+      検索結果の合計額の取得
+  -----------------------------*/
+  $lists_amount = array_column( $lists, 'amount' );
+  $amount_sum = array_sum($lists_amount);
+
+
+  //変数をクリアにする
+  $stmt = null;
+  $pdo = null;
 
 
 ?>
@@ -125,42 +144,52 @@
         <!-- //***** 検索フォーム *****// -->
         <form method="get">
         <div class="well">
+              <div class="form-group">
+                <label for="InputWorkStatus">作業状況</label>
+                <select name="search_work_status" class="form-control" id="InputWorkStatus">
+                    <option value="" <?php echo empty($_GET['search_work_status']) ? 'selected' : '' ?>>選択しない</option>
+                    <option value="waiting" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'waiting' ? 'selected' : '' ?>>未着手</option>
+                    <option value="working" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'working' ? 'selected' : '' ?>>進行中</option>
+                    <option value="done" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'done' ? 'selected' : '' ?>>完了</option>
+                    <option value="canceled" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'canceled' ? 'selected' : '' ?>>中止</option>
+                </select>
+            </div>
+             <div class="form-group">
+                <label for="InputBillingStatus">請求状況</label>
+                <select name="search_billing_status" class="form-control" id="InputBillingStatus">
+                    <option value="" <?php echo empty($_GET['search_billing_status']) ? 'selected' : '' ?>>選択しない</option>
+                    <option value="unbilled" <?php echo isset($_GET['search_billing_status']) && $_GET['search_billing_status'] == 'unbilled' ? 'selected' : '' ?>>未請求</option>
+                    <option value="billed" <?php echo isset($_GET['search_billing_status']) && $_GET['search_billing_status'] == 'billed' ? 'selected' : '' ?>>請求済</option>
+                    <option value="paid" <?php echo isset($_GET['search_billing_status']) && $_GET['search_billing_status'] == 'paid' ? 'selected' : '' ?>>入金確認済</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="InputType">案件種別</label>
                 <select name="search_type" class="form-control" id="InputType">
-                    <option value="0" <?php echo empty($_GET['search_type']) ? 'selected' : '' ?>>選択しない</option>
+                    <option value="" <?php echo empty($_GET['search_type']) ? 'selected' : '' ?>>選択しない</option>
                     <option value="1" <?php echo isset($_GET['search_type']) && $_GET['search_type'] == '1' ? 'selected' : '' ?>>新規案件</option>
                     <option value="2" <?php echo isset($_GET['search_type']) && $_GET['search_type'] == '2' ? 'selected' : '' ?>>保守</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="InputProject">案件名</label>
-                <input name="search_name" class="form-control" id="InputProject" value="<?php echo isset($_GET['search_name']) ? htmlspecialchars($_GET['search_name']) : '' ?>">
-            </div>
-            <div class="form-group">
-                <label for="InputStatus">状況</label>
-                <select name="search_status" class="form-control" id="InputType">
-                    <option value="0" <?php echo empty($_GET['search_status']) ? 'selected' : '' ?>>選択しない</option>
-                    <option value="waiting" <?php echo isset($_GET['search_status']) && $_GET['search_status'] == 'waiting' ? 'selected' : '' ?>>未着手</option>
-                    <option value="working" <?php echo isset($_GET['search_status']) && $_GET['search_status'] == 'working' ? 'selected' : '' ?>>進行中</option>
-                    <option value="done" <?php echo isset($_GET['search_status']) && $_GET['search_status'] == 'done' ? 'selected' : '' ?>>完了</option>
-                    <option value="billed" <?php echo isset($_GET['search_status']) && $_GET['search_status'] == 'billed' ? 'selected' : '' ?>>請求済</option>
-                    <option value="paid" <?php echo isset($_GET['search_status']) && $_GET['search_status'] == 'paid' ? 'selected' : '' ?>>入金確認済</option>
-                    <option value="Canceled" <?php echo isset($_GET['search_status']) && $_GET['search_status'] == 'Canceled' ? 'selected' : '' ?>>中止</option>
-                </select>
+                <input name="search_name" class="form-control" id="InputProject" value="<?php echo isset($_GET['search_name']) ? h($_GET['search_name']) : '' ?>">
             </div>
             <div class="form-group">
                 <label for="InputClient">請求先</label>
-                <input name="search_client" class="form-control" id="InputClient" value="<?php echo isset($_GET['search_client']) ? htmlspecialchars($_GET['search_client']) : '' ?>">
+                <input name="search_client" class="form-control" id="InputClient" value="<?php echo isset($_GET['search_client']) ? h($_GET['search_client']) : '' ?>">
+            </div>
+            <div class="form-group">
+                <label for="InputRemarks">備考</label>
+                <input name="search_remarks" class="form-control" id="InputRemarks" value="<?php echo isset($_GET['search_remarks']) ? h($_GET['search_remarks']) : '' ?>">
             </div>
         <button type="submit" class="btn btn-default" name="search">検索</button>
         </div>
 
 	</form>
 
+      <p>表示案件の合計額は「<?= $amount_sum ?> 円」です。</p>
 
-
-          <!-- <a href="project/create.php" class="btn-open">新規登録</a> -->
 
           <!-- /***** 表示テーブル *****// -->
           <div class="example">
@@ -168,6 +197,7 @@
             <tr>
               <th>No.</th>
               <th>作業状況</th>
+              <th>請求状況</th>
               <th>種別</th>
               <th>案件名</th>
               <th>開始日</th>
@@ -175,8 +205,8 @@
               <th>請求日</th>
               <th>金額</th>
               <th>請求先</th>
-              <th>請求状況</th>
-              <th>請求処理</th>
+              <th>編集</th>
+
             </tr>
 
             <?php
@@ -189,17 +219,17 @@
 
             foreach ($lists as $list) { ?>
               <tr>
-                <td><a href='project/view.php?id=<?= $list['id'] ?>'><?= $list['id']; ?></a></td>
-                <td><?= $list['status_text']; ?></td>
+                <td><?= $list['id']; ?></td>
+                <td><?= $status_text[$list['work_status']]; ?></td>
+                <td><?= $status_text[$list['billing_status']]; ?></td>
                 <td><?= $project_type_text[$list['project_type']] ?></td>
-                <td><?= $list['project_name']; ?></td>
-                <td><?= $list['start_date']; ?></td>
-                <td><?= $list['end_date']; ?></td>
-                <td><?= $list['billing_date']; ?></td>
-                <td><?= $list['amount']; ?></td>
+                <td><a href='project/view.php?id=<?= $list['id'] ?>'><?= $list['project_name']; ?></a></td>
+                <td><?php echo $list['start_date'] !== '0000-00-00'? $list['start_date'] : '-' ?></td>
+                <td><?php echo $list['end_date'] !== '0000-00-00'? $list['end_date'] : '-' ?></td>
+                <td><?php echo $list['billing_date'] !== '0000-00-00'? $list['billing_date'] : '-' ?></td>
+                <td>￥<?= $list['amount']; ?></td>
                 <td><?= $list['client_name']; ?></td>
-                <td>未入金</td>
-                <td><img src="image/billing.jpg" alt="pig"></td>
+                <td><a href='project/edit.php?id=<?= $list['id'] ?>'><img src="<?php echo PROJECT_PATH?>/image/edit_icon.png" alt="edit" height="15"></a>
                 <td>
               </tr>
             <?PHP  } ?>

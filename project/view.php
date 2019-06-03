@@ -20,11 +20,16 @@
   ,p.end_date
   ,p.billing_date
   ,p.amount
-  ,s.status_text
+  ,p.work_status
+  ,p.billing_status
+  ,p.remarks
+  ,p.created_at
+  ,p.updated_at
+  ,p.client_id
   ,c.client_name
+
   FROM projects AS p
-  LEFT JOIN status AS s
-  ON s.status_en = p.status
+
   LEFT JOIN clients AS c
   ON c.id = p.client_id
 
@@ -49,12 +54,6 @@
   if(empty($project)){
     header('Location: ../project_list.php');
   }
-  
-
-  $project_type_text = [
-    "1" => "新規",
-    "2" => "保守",
-    ];
 
   ?>
 
@@ -75,24 +74,31 @@
         <div class="inner">
 
           <h1>案件詳細</h1>
+          <h2>No.</th><td><?= $project['id']; ?>【<?= $project_type_text[$project['project_type']]; ?>】
+          <?= $project['project_name']; ?></h2>
 
-          <p><?= $project['status_text']; ?><p>
+          <p><?= $status_text[$project['work_status']]; ?><p>
+          <p><?= $status_text[$project['billing_status']]; ?><p>
+          <p>作成日時：<?= $project['created_at']; ?><p>
+          <p>更新日時：<?= $project['updated_at']; ?><p>
 
           <table class="table_01">
+          <!--
           <tr><th>No.：</th><td><?= $project['id']; ?></td></tr> 
           <tr><th>案件種別：</th><td><?= $project_type_text[$project['project_type']]; ?></td></tr>
           <tr><th>案件名：</th><td><?= $project['project_name']; ?></td></tr>
+          -->
           <tr><th>開始日：</th><td><?= $project['start_date']; ?></td></tr>
           <tr><th>完了日：</th><td><?= $project['end_date']; ?></td></tr>
           <tr><th>請求日：</th><td><?= $project['billing_date']; ?></td></tr>
           <tr><th>金額：</th><td><?= $project['amount']; ?> 円</td></tr>
           <tr><th>請求先：</th><td><?= $project['client_name']; ?></td></tr>
+          <tr><th>備考：</th><td><?= $project['remarks']; ?></td></tr>
           </table>
 
           
 
-          <a href="edit.php?id=<?= $project['id']; ?>" class="submit_btn">案件編集</a>
-          <a href="#" class="submit_btn">入金処理</a>
+          <a href="edit.php?id=<?= $project['id']; ?>" class="submit_btn">編集</a>
 
         </div>
       </div>
