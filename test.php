@@ -28,10 +28,57 @@ return $pdo;
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>請求管理ツール</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
+    <style>
+      table.from_table {
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        width: 100%;
+      }
 
-  <body>
-  <span class="status-waiting">未着手</span>
+      table.from_table tr th {
+        background: #dcdcdc;
+        width: 5%;
+        white-space: nowrap;
+        font-size: 10px;
+        font-weight: 700;
+        text-align: center;
+        padding: 3px
+     }
+
+     table.from_table tr td {
+        width: 20%;
+        vertical-align: top;
+        padding: 3px
+     }
+    </style>
+</head>
+
+<body>
+<table class="from_table">
+<tr>
+  <th>1</th>
+  <td>1-1
+  <th>2</th>
+  <td>2-1</td>
+
+<th>3</th>
+<td>3-1</td>
+</tr>
+<tr>
+<th>4</th>
+<td>4-1</td>
+<th>5</th>
+<td>5-1</td>
+<th>6</th>
+<td>6-1</td>
+</tr>
+</table>
+
+
+
+<BR><BR><BR>
+<hr>
+<span class="status-waiting">未着手</span>
 <span class="status-working">進行中</span>
 <span class="status-done">完了</span>
 <span class="status-canceled">中止</span>
@@ -41,6 +88,9 @@ return $pdo;
 
 
 <a href="another.html" onclick="window.open('another.html', '別ウィンドウ', 'width=400,height=400'); return false;">クリックすると別ウインドウが開きます</a>
+<a href="another.html" onclick="window.open('another.html', '別ウィンドウ', 'width=400,height=400'); return false;">クリックすると別ウインドウが開きます</a>
+
+<td><a href='processing/index.php?id=<?= $list['id'] ?>' onClick="window.open('processing/index.php?id=<?= $list['id'] ?>', '別ウィンドウ', 'width=400,height=400'); return false;"><img src="<?php echo PROJECT_PATH?>/image/billing.jpg" alt="edit" height="15"></a></td>
 
 <form action="" method="post" onSubmit=”return checkSubmit()”>
 <input type="submit" onSubmit="confirm('送信しますか？')">

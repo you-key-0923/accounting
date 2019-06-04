@@ -126,17 +126,21 @@ a:hover{ color : #ff7043;} /* ポイント時のリンク */
 
  table.list{
   width: 100%;
-  border-collapse: collapse;
+	border-collapse: collapse;
+	border:1px solid #8b8b8b;
   border-spacing: 0;
 	font-size:12px;
+	border: 1px solid
 }
 
- table th,table td{
-  padding: 7px 0;
-  text-align: center;
+ table.list th,table.list td{
+	border:0.5px solid #c6c6c6;
+  padding: 5px;
+	text-align: center;
+	border-width: 1px 0px;
 }
 
-table tr:nth-child(odd){
+table.list tr:nth-child(odd){
   background-color: #fff
 }
 
@@ -371,19 +375,61 @@ table tr:nth-child(odd){
 	}
 
 	/*-----------------------------------------------
+ 	__project_list.phpの検索テーブル
+	-----------------------------------------------*/
+
+	table.from_table {
+		margin-top: 5px;
+		border: 1px solid #ccc;
+		width: 100%;
+	}
+
+	table.from_table tr th {
+		background: #dcdcdc;
+		-width: 5%;
+		white-space: nowrap;
+		font-size: 10px;
+		font-weight: 700;
+		text-align: center;
+		padding: 3px
+ }
+
+ table.from_table tr td {
+		-width: 28%;
+		vertical-align: top;
+		padding: 3px
+ }
+
+
+	/*-----------------------------------------------
 	案件の新規登録や編集用
 	-----------------------------------------------*/
 
 
 	table.table_01{
-		width: 50%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    font-size: 12px;
+		width: 80%;
     border: 0.5px grey solid;
     margin: 20px 0 20px 0;
 	}
 
+	table.table_01 th{
+		width: 10%;
+		text-align: right; 
+		-border: solid 1px;  /* 枠線指定 */
+    padding: 5px;      /* 余白指定 */
+		background: #dcdcdc;
+	}
+
+	table.table_01 td{
+		width: 70%;
+		text-align: left; 
+		-border: solid 1px;  /* 枠線指定 */
+		padding: 5px;      /* 余白指定 */
+		background: #fff;
+	}
+
+
+/*
 	form.form_01{
 		width: 50%;
     border-collapse: collapse;
@@ -392,6 +438,7 @@ table tr:nth-child(odd){
     border: 0.5px grey solid;
     margin: 20px 0 20px 0;
 	}
+	*/
 
 	/*-----------------------------------------------
 	client/index

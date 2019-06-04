@@ -5,7 +5,7 @@ include('../db_connect.php');
 include('../config.php');
 
 
-//var_dump($_POST['check']);
+var_dump($_POST['check']);
 
 //選択したIDを取り出す
 if (isset($_POST['check']) && is_array($_POST['check'])) {

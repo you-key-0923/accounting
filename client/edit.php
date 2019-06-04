@@ -22,7 +22,6 @@
 
   //SQL文を実行する
   $stmt -> execute();
-  var_dump($sql);
 
   $client = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -129,7 +128,7 @@
           <td><input type="text" name="staff" value="<?= h($client['staff']); ?>"></td>
         </tr>
         <tr>
-            <th>備考</th>
+            <th>備考：</th>
             <td><textarea name="remarks" rows="6" cols="40"><?= h($client['remarks']) ?></textarea></td>
         </tr>
 

@@ -47,7 +47,6 @@
   $stmt -> execute();
 
   $project = $stmt->fetch(PDO::FETCH_ASSOC);
-  var_dump($project['remarks']);
 
 /*----------------------------
     クライアント情報を抽出
@@ -199,7 +198,7 @@
           </select></td>
         </tr>
         <tr>
-            <th>備考</th>
+            <th>備考：</th>
             <td><textarea name="remarks" rows="6" cols="40"><?= h($project['remarks']) ?></textarea></td>
         </tr>
 

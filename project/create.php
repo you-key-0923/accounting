@@ -111,7 +111,7 @@ $pdo = null;
                         </td>
                     </tr>
                     <tr>
-                        <th>備考</th>
+                        <th>備考：</th>
                         <td><textarea name="p_remarks" rows="6" cols="40"></textarea></td>
                     </tr>
                 </table>
