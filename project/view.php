@@ -93,7 +93,7 @@
           <tr><th>請求日：</th><td><?= $project['billing_date']; ?></td></tr>
           <tr><th>金額：</th><td><?= number_format($project['amount']); ?> 円</td></tr>
           <tr><th>請求先：</th><td><?= $project['client_name']; ?></td></tr>
-          <tr><th>備考：</th><td><?= $project['remarks']; ?></td></tr>
+          <tr><th>備考：</th><td><?= nl2br($project['remarks']); ?></td></tr>
           </table>
 
           

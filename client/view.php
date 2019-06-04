@@ -62,7 +62,7 @@
           <tr><th>電話番号１：</th><td><?= $client['tel1']; ?></td></tr>
           <tr><th>電話番号２：</th><td><?= $client['tel2']; ?></td></tr>
           <tr><th>担当者名：</th><td><?= $client['staff']; ?></td></tr>
-          <tr><th>備考：</th><td><?= $client['remarks']; ?></td></tr>
+          <tr><th>備考：</th><td><?= nl2br($client['remarks']); ?></td></tr>
           </table>
           <a href="edit.php?id=<?= $client['id']; ?>" class="submit_btn">編集</a>
 
