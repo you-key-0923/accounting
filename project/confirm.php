@@ -90,7 +90,7 @@ if(!empty($_POST)){
             <tr><th>開始日：</th><td><?= $_SESSION['join']['p_start_date']; ?></td></tr>
             <tr><th>完了日：</th><td><?= $_SESSION['join']['p_end_date']; ?></td></tr>
             <tr><th>請求日：</th><td><?= $_SESSION['join']['p_billing_date']; ?></td></tr>
-            <tr><th>金額：</th><td><?= $_SESSION['join']['p_amount']; ?> 円</td></tr>
+            <tr><th>金額：</th><td><?= number_format($_SESSION['join']['p_amount']); ?> 円</td></tr>
             <tr><th>請求先：</th><td><?= $client['client_name']; ?></td></tr>
           </table>
           <input type="submit" class="submit_btn" value="登録">

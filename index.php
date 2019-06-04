@@ -86,14 +86,14 @@
               <tr>
                 <td><?= $list['id']; ?></td>
                 <td><?= $list['client_name']; ?></td>
-                <td><?= $list['unbilled_count']; ?></td>
-                <td><?= $list['unbilled_sum']; ?></td>
-                <td><?= $list['billed_count']; ?></td>
-                <td><?= $list['billed_sum']; ?></td>
-                <td><?= $list['paid_count']; ?></td>
-                <td><?= $list['paid_sum']; ?></td>
-                <td><?= $list['total_count']; ?></td>
-                <td><?= $list['total_sum']; ?></td>
+                <td><?= number_format($list['unbilled_count']); ?></td>
+                <td><?= number_format($list['unbilled_sum']); ?></td>
+                <td><?= number_format($list['billed_count']); ?></td>
+                <td><?= number_format($list['billed_sum']); ?></td>
+                <td><?= number_format($list['paid_count']); ?></td>
+                <td><?= number_format($list['paid_sum']); ?></td>
+                <td><?= number_format($list['total_count']); ?></td>
+                <td><?= number_format($list['total_sum']); ?></td>
               </tr>
             <?PHP  } ?>
             </table>

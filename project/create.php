@@ -81,7 +81,7 @@ $pdo = null;
                     </tr>
                     <tr>
                         <th>案件名<span style="color:red;">*</span>：</th>
-                        <td><input type="text" name="p_name"></td>
+                        <td><input type="text" name="p_name" size="40"></td>
                     </tr>
                     <tr>
                         <th>開始日：</th>
@@ -102,7 +102,7 @@ $pdo = null;
                     <tr>
                         <th>請求先<span style="color:red;">*</span>：</th>
                         <td>
-                        <select name="p_client">
+                        <select name="p_client" cols="40">
                         <?php foreach($client_list as $client_list_val){ ?>
                         <option value='<?= $client_list_val['id']?>'>
                         <?= $client_list_val['client_name'] ?></option>

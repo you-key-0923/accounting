@@ -77,10 +77,10 @@
           <h2>No.</th><td><?= $project['id']; ?>【<?= $project_type_text[$project['project_type']]; ?>】
           <?= $project['project_name']; ?></h2>
 
-          <p><?= $status_text[$project['work_status']]; ?><p>
-          <p><?= $status_text[$project['billing_status']]; ?><p>
-          <p>作成日時：<?= $project['created_at']; ?><p>
-          <p>更新日時：<?= $project['updated_at']; ?><p>
+          <span class="status-<?= $project['work_status']; ?>"><?= $status_text[$project['work_status']]; ?></span>
+          <span class="status-<?= $project['billing_status']; ?>"><?= $status_text[$project['billing_status']]; ?></span>
+          <p class="date">作成日時：<?= $project['created_at']; ?><p>
+          <p class="date">更新日時：<?= $project['updated_at']; ?><p>
 
           <table class="table_01">
           <!--
@@ -91,7 +91,7 @@
           <tr><th>開始日：</th><td><?= $project['start_date']; ?></td></tr>
           <tr><th>完了日：</th><td><?= $project['end_date']; ?></td></tr>
           <tr><th>請求日：</th><td><?= $project['billing_date']; ?></td></tr>
-          <tr><th>金額：</th><td><?= $project['amount']; ?> 円</td></tr>
+          <tr><th>金額：</th><td><?= number_format($project['amount']); ?> 円</td></tr>
           <tr><th>請求先：</th><td><?= $project['client_name']; ?></td></tr>
           <tr><th>備考：</th><td><?= $project['remarks']; ?></td></tr>
           </table>

@@ -3,6 +3,13 @@
   include('db_connect.php');
   include('config.php');
 
+  //一括請求済処理
+  if(!empty($_POST['billed'])){
+    header('Location: processing/billing.php');
+    }
+    
+
+  
 
   // 検索パラメタの取得
   // (第一種)ホワイトリストの準備
@@ -94,7 +101,8 @@
   if(!empty($where_list)){
     $sql = $sql . ' WHERE ' . implode(' AND ', $where_list).' ORDER BY p.id';
   }else{
-    $sql = $sql .' WHERE p.work_status != "canceled" AND p.billing_status != "paid" ORDER BY p.id'; //デフォルトの表示条件
+    $sql;
+    //$sql = $sql .' WHERE p.work_status != "canceled" AND p.billing_status != "paid" ORDER BY p.id'; //デフォルトの表示条件
   }
 
   //プリペアドステートメントを作る
@@ -125,7 +133,6 @@
   //変数をクリアにする
   $stmt = null;
   $pdo = null;
-
 
 ?>
 
@@ -215,13 +222,16 @@
 
 	</form>
 
-      <p>表示案件の合計額は「<?= $amount_sum ?> 円」です。</p>
+      <p>表示案件の合計額は「<?= number_format($amount_sum) ?> 円」です。</p>
+      <form method="post" action="processing/billing.php">
+      <input type="submit" name="billed" value="一括請求済処理">
 
 
           <!-- /***** 表示テーブル *****// -->
           <div class="example">
           <table class="list">
             <tr>
+              <th></th>
               <th>No.</th>
               <th>作業状況</th>
               <th>請求状況</th>
@@ -233,6 +243,7 @@
               <th>金額</th>
               <th>請求先</th>
               <th>編集</th>
+              <th>処理</th>
 
             </tr>
 
@@ -240,6 +251,7 @@
 
             foreach ($lists as $list) { ?>
               <tr>
+                <td><input type="checkbox" name="check[]" value="<?= $list['id']; ?>"></td>
                 <td><?= $list['id']; ?></td>
                 <td><?= $status_text[$list['work_status']]; ?></td>
                 <td><?= $status_text[$list['billing_status']]; ?></td>
@@ -248,18 +260,21 @@
                 <td><?php echo $list['start_date'] !== '0000-00-00'? $list['start_date'] : '-' ?></td>
                 <td><?php echo $list['end_date'] !== '0000-00-00'? $list['end_date'] : '-' ?></td>
                 <td><?php echo $list['billing_date'] !== '0000-00-00'? $list['billing_date'] : '-' ?></td>
-                <td>￥<?= $list['amount']; ?></td>
+                <td>￥<?= number_format($list['amount']); ?></td>
                 <td><?= $list['client_name']; ?></td>
-                <td><a href='project/edit.php?id=<?= $list['id'] ?>'><img src="<?php echo PROJECT_PATH?>/image/edit_icon.png" alt="edit" height="15"></a>
-                <td>
+                <td><a href='project/edit.php?id=<?= $list['id'] ?>'><img src="<?php echo PROJECT_PATH?>/image/edit_icon.png" alt="edit" height="15"></a></td>
+                <td><a href='processing/index.php?id=<?= $list['id'] ?>' onClick="window.open('processing/index.php?id=<?= $list['id'] ?>', '別ウィンドウ', 'top=250,left=300,width=500,height=400'); return false;"><img src="<?php echo PROJECT_PATH?>/image/billing.jpg" alt="edit" height="15"></a></td>
               </tr>
             <?PHP  } ?>
           </table>
+            </form>
           </div>
 
         </div>
       </div>
       <?php include('views/menu.inc.php'); ?>
       <?php include('views/footer.inc.php'); ?>
+
+
   </body>
 </html>
