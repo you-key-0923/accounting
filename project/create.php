@@ -100,7 +100,7 @@ $pdo = null;
                         <td><input type="number" name="p_amount"> 円</td>
                     </tr>
                     <tr>
-                        <th>請求先<span style="color:red;">*</span>：</th>
+                        <th>クライアント<span style="color:red;">*</span>：</th>
                         <td>
                         <select name="p_client" cols="40">
                         <?php foreach($client_list as $client_list_val){ ?>

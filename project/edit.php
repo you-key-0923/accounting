@@ -189,7 +189,7 @@
           <td><input type="number" name="amount" value="<?= h($project['amount']); ?>"> 円</td>
         </tr>
         <tr>
-          <th>請求先：</th>
+          <th>クライアント名：</th>
           <td><select name="client_id">
           <?php foreach($client_list as $client_list_val){ ?>
           <option value="<?php if($project['client_id'] === $client_list_val['id']): echo $client_list_val['id'] ?>" selected ><?php else: echo $client_list_val['id'] ?>">

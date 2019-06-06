@@ -43,13 +43,13 @@
           <div class="example_02">
             <table class="table_02">
             <tr>
-                <th>No</th>
-                <th>クライアント名</th>
+                <th style="width: 5%;">No</th>
+                <th style="width: 65%;">クライアント名</th>
             </tr>
             <?php foreach ($lists as $list) { ?>
             <tr>
-                <td><?= $list['id']; ?></td> 
-                <td class=table_02><a href='view.php?id=<?= $list['id'] ?>'><?= $list['client_name']; ?></a><td>
+                <td style="width: 5%;"><?= $list['id']; ?></td> 
+                <td style="width: 65%;"><a href='view.php?id=<?= $list['id'] ?>'><?= $list['client_name']; ?></a></td>
             </tr>
             <?PHP  } ?>
             </table>

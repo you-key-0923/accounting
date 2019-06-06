@@ -105,6 +105,7 @@ a:hover{ color : #ff7043;} /* ポイント時のリンク */
 #main {
 	float:left;
 	width:100%;
+	height:700px;
 }
 
 
@@ -116,7 +117,7 @@ a:hover{ color : #ff7043;} /* ポイント時のリンク */
 	margin:0 0 15px 200px;
 	padding:10px 15px 5px;
 	background:#EFEFEF;
-	height:550px;
+	height:700px;
 }
 
 #main .inner h2 {
@@ -171,7 +172,7 @@ table.list tr:nth-child(odd){
 	margin-bottom:15px;
 	padding:15px 0 0 0;
 	background:#EFEFEF;
-	height:550px;
+	height:700px;
 }
 
 #sub h3 {
@@ -409,7 +410,7 @@ table.list tr:nth-child(odd){
 	table.table_01{
 		width: 80%;
     border: 0.5px grey solid;
-    margin: 20px 0 20px 0;
+    margin: 10px 0 20px 0;
 	}
 
 	table.table_01 th{
@@ -446,24 +447,27 @@ table.list tr:nth-child(odd){
 	-----------------------------------------------*/
 
 	div.example_02 {
-		width: 70%;
-		height: 400px;
+		width: 48%;
+		height: 580px;
 		overflow: scroll;
 	}
+	
 
-	table.table_02{
-		width: 100%;
-    -border-collapse: collapse;
-    border-spacing: 0;
-    font-size: 12px;
-    border: 0.5px grey solid;
-    margin: 20px 0 20px 0;
+
+	table.table_02 th{
+		-text-align: right; 
+		-border: solid 1px;  /* 枠線指定 */
+    padding: 5px;      /* 余白指定 */
+		background: #dcdcdc;
 	}
 
-	table td.table_02{
-		padding: 7px 0;
-		text-align: left;
+	table.table_02 td{
+		text-align: left; 
+		-border: solid 1px;  /* 枠線指定 */
+		padding: 5px;      /* 余白指定 */
+		background: #fff;
 	}
+
 
 	/*-----------------------------------------------
 	project_list
@@ -541,7 +545,7 @@ table.list tr:nth-child(odd){
     padding: 5px 60px;
     margin: 0 10px;
     color: #2c2c2f;
-		background: #cde4ff;/*背景色*/
+		background: #f0e68c;/*背景色*/
 		font-weight: bold;
 		font-size: 16px;
 	}
@@ -572,7 +576,10 @@ table.list tr:nth-child(odd){
 
 
 	.date {
-		text-align: right;
+		-text-align: right;
+		margin: 15px 0 0 0 ;
+		font-size: 12px;
+
 	}
 
 	/*-----------------------------------------------

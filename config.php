@@ -23,5 +23,10 @@ $status_text = [
     "paid" => "入金確認済"
 ];
 
+//日付の「0000-00-00」表記を「-」に置換
+function show_date($d) {
+    echo $d !== '0000-00-00'? htmlspecialchars($d) : '-';
+  }
+
 
 

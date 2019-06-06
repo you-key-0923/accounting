@@ -62,6 +62,7 @@ if(!empty($_POST)){
     exit();
 }
 
+
 ?>
 
 
@@ -84,14 +85,14 @@ if(!empty($_POST)){
           <form action="" method="post">
           <input type="hidden" name="action" value="submit" />
           <table class="table_01">
-           <tr><th>ステータス：</th><td><?= $status_text[$_SESSION['join']['p_work_status']]; ?>　<?= $status_text[$_SESSION['join']['p_billing_status']]; ?></td></tr>
-            <tr><th>案件種別：</th><td><?= $project_type_text[$_SESSION['join']['p_type']]; ?></td></tr>
-            <tr><th>案件名：</th><td><?= $_SESSION['join']['p_name']; ?></td></tr>
-            <tr><th>開始日：</th><td><?= $_SESSION['join']['p_start_date']; ?></td></tr>
-            <tr><th>完了日：</th><td><?= $_SESSION['join']['p_end_date']; ?></td></tr>
-            <tr><th>請求日：</th><td><?= $_SESSION['join']['p_billing_date']; ?></td></tr>
-            <tr><th>金額：</th><td><?= number_format($_SESSION['join']['p_amount']); ?> 円</td></tr>
-            <tr><th>請求先：</th><td><?= $client['client_name']; ?></td></tr>
+           <tr><th>ステータス：</th><td><?= h($status_text[$_SESSION['join']['p_work_status']]); ?>　<?= h($status_text[$_SESSION['join']['p_billing_status']]); ?></td></tr>
+            <tr><th>案件種別：</th><td><?= h($project_type_text[$_SESSION['join']['p_type']]); ?></td></tr>
+            <tr><th>案件名：</th><td><?= h($_SESSION['join']['p_name']); ?></td></tr>
+            <tr><th>開始日：</th><td><?= h($_SESSION['join']['p_start_date']); ?></td></tr>
+            <tr><th>完了日：</th><td><?= h($_SESSION['join']['p_end_date']); ?></td></tr>
+            <tr><th>請求日：</th><td><?= h($_SESSION['join']['p_billing_date']); ?></td></tr>
+            <tr><th>金額：</th><td><?php echo !empty($_SESSION['join']['p_amount']) ? number_format(h($_SESSION['join']['p_amount'])).' 円' : '' ?></td></tr>
+            <tr><th>クライアント名：</th><td><?= h($client['client_name']); ?></td></tr>
             <tr><th>備考：</th><td><?= $_SESSION['join']['p_remarks']; ?></td></tr>
           </table>
           <input type="submit" class="submit_btn" value="登録">

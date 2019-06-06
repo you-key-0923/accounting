@@ -6,8 +6,7 @@
   //SQL文を作る
   $sql = 
   "SELECT
-  c.id
-  ,c.client_name
+  DATE_FORMAT(p.billing_date, '%Y-%m') month
   ,COUNT(p.billing_status = 'unbilled' OR NULL) unbilled_count
   ,SUM(CASE p.billing_status WHEN 'unbilled' THEN p.amount ELSE 0 END) unbilled_sum
   ,COUNT(p.billing_status = 'billed' OR NULL) billed_count
@@ -16,14 +15,11 @@
   ,SUM(CASE p.billing_status WHEN 'paid' THEN p.amount ELSE 0 END) paid_sum
   ,COUNT(p.id) total_count
   ,SUM(p.amount) total_sum
-
-  FROM projects p
-
-  LEFT JOIN clients c
-  ON c.id = p.client_id
-
-  GROUP BY
-  c.id";
+  
+FROM
+  projects p
+GROUP BY
+  DATE_FORMAT(p.billing_date, '%Y%m');";
 
   //プリペアドステートメントを作る
   $statement = $pdo->prepare($sql);
@@ -57,21 +53,11 @@
       <div id="main">
         <div class="inner">
 
-          <h1>トップページ！！</h1>
-          <p><a href="https://github.com/you-key-0923/accounting">コードはこちら</a></p>
-          <div class="index_box">
-            <p>アラートを出す？？</p>
-            <ul>
-                <li>未請求の案件が、「」件あるよ！とか？</li>
-                <li>現在進行中の案件は「」件だよ！とか？</li>
-                <li>仕様決まったら作るよ</li>
-            </ul>
-            </div>
-            <p>※クライアント毎の請求額（作業ステータスは条件に含めず）
+          <h1>summary</h1>
+            <p>※月次毎の請求額（作業ステータスは条件に含めず）
             <table class="list">
                 <tr>
-                    <th>No</th>
-                    <th>クライアント名</th>
+                    <th>月次</th>
                     <th>未請求件数</th>
                     <th>未請求金額</th>
                     <th>請求済件数</th>
@@ -84,8 +70,7 @@
 
                 <?php foreach ($lists as $list) { ?>
               <tr>
-                <td><?= h($list['id']); ?></td>
-                <td><?= h($list['client_name']); ?></td>
+                <td><?= h($list['month']); ?></td>
                 <td style="text-align: right;"><?= number_format(h($list['unbilled_count'])); ?></td>
                 <td style="text-align: right;"><?= number_format(h($list['unbilled_sum'])); ?></td>
                 <td style="text-align: right;"><?= number_format(h($list['billed_count'])); ?></td>
