@@ -77,7 +77,7 @@
   */
   if(!empty($search['search_work_status'])){
     if($search['search_work_status'] == 'except_for_canceled'){
-      $where_list[] = 'p.work_status != "canceled"';     
+      $where_list[] = 'p.work_status != :work_status';     
     }else{
       $where_list[] = 'p.work_status = :work_status';
       }
@@ -86,7 +86,7 @@
 
   if(!empty($search['search_billing_status'])){
     if($search['search_billing_status'] == 'except_for_paid'){
-      $where_list[] = 'p.billing_status != "paid"';     
+      $where_list[] = 'p.billing_status != :billing_status';     
     }else{
       $where_list[] = 'p.billing_status = :billing_status';
       }
@@ -162,6 +162,8 @@
   }elseif(isset($_GET['search_btn']) && !empty($where_list)){
     $sql .= ' WHERE ' . implode(' AND ', $where_list).' ORDER BY p.id';
   }
+
+
 
   //プリペアドステートメントを作る
   $stmt = $pdo->prepare($sql);
