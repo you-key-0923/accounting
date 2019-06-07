@@ -77,20 +77,20 @@
   */
   if(!empty($search['search_work_status'])){
     if($search['search_work_status'] == 'except_for_canceled'){
-      $where_list[] = 'p.work_status != :work_status';     
+      $where_list[] = 'p.work_status != "canceled"'; 
     }else{
       $where_list[] = 'p.work_status = :work_status';
+      $bind_array[':work_status'] = $search['search_work_status'];
       }
-    $bind_array[':work_status'] = $search['search_work_status'];
   }
 
   if(!empty($search['search_billing_status'])){
     if($search['search_billing_status'] == 'except_for_paid'){
-      $where_list[] = 'p.billing_status != :billing_status';     
+      $where_list[] = 'p.billing_status != "paid"';     
     }else{
       $where_list[] = 'p.billing_status = :billing_status';
+      $bind_array[':billing_status'] = $search['search_billing_status'];
       }
-    $bind_array[':billing_status'] = $search['search_billing_status'];
   }
   if(!empty($search['search_type'])){
     // WHERE句に入れる文言を設定する
@@ -218,7 +218,7 @@
       <th><label for="InputWorkStatus">作業状況</label></th>
       <td>
         <select name="search_work_status" class="form-control" id="InputWorkStatus">
-        <option value="" <?php echo isset($_GET['search_btn']) && empty(h($_GET['search_work_status'])) ? 'selected' : '' ?>>選択しない</option>
+        <option value="" <?php echo isset($_GET['search_btn']) && empty($_GET['search_work_status']) ? 'selected' : '' ?>>選択しない</option>
         <option value="waiting" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'waiting' ? 'selected' : '' ?>>未着手</option>
         <option value="working" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'working' ? 'selected' : '' ?>>進行中</option>
         <option value="done" <?php echo isset($_GET['search_work_status']) && $_GET['search_work_status'] == 'done' ? 'selected' : '' ?>>完了</option>
